@@ -9,7 +9,6 @@ using Services.Input;
 using Services.ScreenLoading;
 using Services.StaticData;
 using StaticData;
-using UnityEditor.MPE;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -28,11 +27,11 @@ namespace Infrastructure
             await RegisterServices();
             
             var loadingOperations = new Queue<ILoadingOperation>();
-            loadingOperations.Enqueue(new ConfigLoadingOperation());
-            loadingOperations.Enqueue(new AssetInitializeOperation());
+            // loadingOperations.Enqueue(new ConfigLoadingOperation());
+            // loadingOperations.Enqueue(new AssetInitializeOperation());
             loadingOperations.Enqueue(new MenuLoadingOperation());
-            
-            
+
+            ServiceLocator.Instance.Get<ILoadingScreenProvider>().LoadAndDestroy(loadingOperations);
         }
 
         private async UniTask RegisterServices()
@@ -41,22 +40,22 @@ namespace Infrastructure
             
             AssetProvider assetProvider = new AssetProvider();
             StaticDataService staticDataService = new StaticDataService(assetProvider);
-            GameFactory gameFactory = new GameFactory(assetProvider);
+            GameFactory gameFactory = new(assetProvider);
 
             // serviceLocator.Register<IEventService>(new EventService());
             // serviceLocator.Register<IPersistentDataService>(new PersistentDataService());
             serviceLocator.Register<IAssetProvider>(assetProvider);
 
-            Joystick joystick = await assetProvider.InstantiateAsync<Joystick>(Constants.Assets.JOYSTICK);
-            serviceLocator.Register<IInputService>(new InputService(joystick));
+            // Joystick joystick = await assetProvider.InstantiateAsync<Joystick>(Constants.Assets.JOYSTICK);
+            // serviceLocator.Register<IInputService>(new InputService(joystick));
             serviceLocator.Register<IStaticDataService>(staticDataService);
             serviceLocator.Register<IGameFactory>(gameFactory);
             serviceLocator.Register<ILoadingScreenProvider>(new LoadingScreenProvider(gameFactory));
             
-            SoundsData soundsData = await staticDataService.GetData<SoundsData>();
-            serviceLocator.Register<IAudioService>(new AudioService(soundsData));
+            // SoundsData soundsData = await staticDataService.GetData<SoundsData>();
+            // serviceLocator.Register<IAudioService>(new AudioService(soundsData));
             
-            AppConfigurationData appConfigurationData = await staticDataService.GetData<AppConfigurationData>();
+            // AppConfigurationData appConfigurationData = await staticDataService.GetData<AppConfigurationData>();
             // serviceLocator.Register<IAdsService>(new AdsService(appConfigurationData));
 
         }

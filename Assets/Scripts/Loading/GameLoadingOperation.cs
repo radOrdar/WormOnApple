@@ -29,7 +29,7 @@ namespace Loading
             await UniTask.WhenAll(unloadSceneOperations);
             onProgress(0.7f);
             await SceneManager.LoadSceneAsync(Constants.Scenes.GAME, LoadSceneMode.Additive);
-            UnityEngine.Debug.Log(SceneManager.SetActiveScene(SceneManager.GetSceneByName(Constants.Scenes.GAME)));
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(Constants.Scenes.GAME));
         }
     }
 }

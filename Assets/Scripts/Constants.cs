@@ -3,6 +3,7 @@ public static class Constants
     public static class Assets
     {
         public const string JOYSTICK = "Joystick";
+        public const string LOADING_SCREEN = "LoadingScreen";
     }
     public static class Scenes
     {

@@ -1,20 +1,21 @@
 using Cysharp.Threading.Tasks;
 using Loading;
-using Services.Asset;
 using UnityEngine;
 
 namespace Services.Factory
 {
     public class GameFactory : IGameFactory
     {
-        public GameFactory(AssetProvider assetProvider)
+        private readonly IAssetProvider _assetProvider;
+        
+        public GameFactory(IAssetProvider assetProvider)
         {
-            throw new System.NotImplementedException();
+            _assetProvider = assetProvider;
         }
 
-        public UniTask WarmupAsync()
+        public async UniTask WarmupAsync()
         {
-            throw new System.NotImplementedException();
+           
         }
 
         // public UniTask<UiPopup> GetUiPopupAsync()
@@ -22,14 +23,14 @@ namespace Services.Factory
         //     throw new System.NotImplementedException();
         // }
 
-        public UniTask<LoadingScreen> GetLoadingScreenAsync()
+        public async UniTask<LoadingScreen> GetLoadingScreenAsync()
         {
-            throw new System.NotImplementedException();
+            return await _assetProvider.InstantiateAsync<LoadingScreen>(Constants.Assets.LOADING_SCREEN);
         }
 
         public void ReleaseInstance<T>(T instance) where T : Component
         {
-            throw new System.NotImplementedException();
+            _assetProvider.ReleaseInstance(instance.gameObject);
         }
     }
 }
