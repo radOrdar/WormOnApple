@@ -18,4 +18,9 @@ public static class Constants
         public const string SOUNDS = "SoundData";
         public const string LEVEL_PROGRESSION = "LevelProgression";
     }
+
+    public static class PrefsKeys
+    {
+        public const string LEVEL = "Level";
+    }
 }

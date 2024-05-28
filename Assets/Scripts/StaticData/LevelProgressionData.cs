@@ -17,6 +17,6 @@ namespace StaticData
     [Serializable]
     public struct ProgressionUnit
     {
-        public int speed;
+        public int speed, pickupNum, posionNum;
     }
 }

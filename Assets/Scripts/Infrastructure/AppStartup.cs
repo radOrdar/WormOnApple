@@ -6,6 +6,7 @@ using Services.Asset;
 using Services.Audio;
 using Services.Factory;
 using Services.Input;
+using Services.Persistent;
 using Services.ScreenLoading;
 using Services.StaticData;
 using StaticData;
@@ -51,6 +52,7 @@ namespace Infrastructure
             serviceLocator.Register<IStaticDataService>(staticDataService);
             serviceLocator.Register<IGameFactory>(gameFactory);
             serviceLocator.Register<ILoadingScreenProvider>(new LoadingScreenProvider(gameFactory));
+            serviceLocator.Register<IPersistentDataService>(new PersistentDataService());
             
             // SoundsData soundsData = await staticDataService.GetData<SoundsData>();
             // serviceLocator.Register<IAudioService>(new AudioService(soundsData));

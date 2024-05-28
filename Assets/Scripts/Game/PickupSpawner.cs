@@ -1,30 +1,30 @@
+using Game;
+using StaticData;
 using UnityEngine;
 
 public class PickupSpawner : MonoBehaviour
 {
     [SerializeField] private Pickup pickupPf;
-    [SerializeField] private int numOfPickups;
-    private LayerMask appleLayer;
+    [SerializeField] private Poison poisonPf;
 
-    // Start is called before the first frame update
-    void Start()
+    private ProgressionUnit _progressionUnit;
+    
+    public void Init(ref ProgressionUnit progressionUnit)
     {
-        appleLayer = LayerMask.GetMask("Apple");
-        for (int i = 0; i < numOfPickups; i++)
+        _progressionUnit = progressionUnit;
+        LayerMask appleLayer = LayerMask.GetMask("Apple");
+        for (int i = 0; i < _progressionUnit.pickupNum; i++)
         {
             Vector3 insideUnitSphere = Random.insideUnitSphere * 100;
             Physics.Raycast(insideUnitSphere, -insideUnitSphere, out RaycastHit hit, 100, appleLayer);
-            Instantiate(pickupPf, hit.point, Quaternion.LookRotation(insideUnitSphere));
+            Instantiate(pickupPf, hit.point, Quaternion.LookRotation(insideUnitSphere), transform);
+        }
+
+        for (int i = 0; i < _progressionUnit.posionNum; i++)
+        {
+            Vector3 insideUnitSphere = Random.insideUnitSphere * 100;
+            Physics.Raycast(insideUnitSphere, -insideUnitSphere, out RaycastHit hit, 100, appleLayer);
+            Instantiate(poisonPf, hit.point, Quaternion.LookRotation(insideUnitSphere), transform);
         }
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        print($"Collission {Time.time}");
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    { }
 }
