@@ -2,10 +2,11 @@
 using Cysharp.Threading.Tasks;
 using Loading;
 using Services;
+using Services.Ads;
 using Services.Asset;
 using Services.Audio;
+using Services.Event;
 using Services.Factory;
-using Services.Input;
 using Services.Persistent;
 using Services.ScreenLoading;
 using Services.StaticData;
@@ -28,7 +29,8 @@ namespace Infrastructure
             await RegisterServices();
             
             var loadingOperations = new Queue<ILoadingOperation>();
-            // loadingOperations.Enqueue(new ConfigLoadingOperation());
+            loadingOperations.Enqueue(new ServicesInitializationOperation());
+            loadingOperations.Enqueue(new ConfigLoadingOperation());
             // loadingOperations.Enqueue(new AssetInitializeOperation());
             loadingOperations.Enqueue(new MenuLoadingOperation());
 
@@ -43,8 +45,7 @@ namespace Infrastructure
             StaticDataService staticDataService = new StaticDataService(assetProvider);
             GameFactory gameFactory = new(assetProvider);
 
-            // serviceLocator.Register<IEventService>(new EventService());
-            // serviceLocator.Register<IPersistentDataService>(new PersistentDataService());
+            serviceLocator.Register<IEventService>(new EventService());
             serviceLocator.Register<IAssetProvider>(assetProvider);
 
             // Joystick joystick = await assetProvider.InstantiateAsync<Joystick>(Constants.Assets.JOYSTICK);
@@ -53,12 +54,11 @@ namespace Infrastructure
             serviceLocator.Register<IGameFactory>(gameFactory);
             serviceLocator.Register<ILoadingScreenProvider>(new LoadingScreenProvider(gameFactory));
             serviceLocator.Register<IPersistentDataService>(new PersistentDataService());
+            serviceLocator.Register<IAdsService>(new AdsService(await staticDataService.GetData<AppodealSettingsData>()));
+            serviceLocator.Register<IAPManager>(new IAPManager());
             
-            // SoundsData soundsData = await staticDataService.GetData<SoundsData>();
-            // serviceLocator.Register<IAudioService>(new AudioService(soundsData));
-            
-            // AppConfigurationData appConfigurationData = await staticDataService.GetData<AppConfigurationData>();
-            // serviceLocator.Register<IAdsService>(new AdsService(appConfigurationData));
+            SoundsData soundsData = await staticDataService.GetData<SoundsData>();
+            serviceLocator.Register<IAudioService>(new AudioService(soundsData));
 
         }
 

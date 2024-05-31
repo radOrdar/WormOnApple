@@ -1,4 +1,8 @@
 using System.Collections.Generic;
+using Services;
+using Services.Ads;
+using Services.Audio;
+using Services.Event;
 using StaticData;
 using UnityEngine;
 
@@ -9,11 +13,15 @@ public class Snake : MonoBehaviour
     public Transform head;
     public SphereTrigger sphereTrigger;
     public SnakeBodyPart bodyPartPf;
+    [SerializeField] private ParticleSystem destroyFx;
 
     private List<SnakeBodyPart> bodyParts = new();
     private LayerMask _appleLayerMask;
     private Vector3 direction;
     private Camera mainCamera;
+
+    private IAudioService _audioService;
+    private IEventService _eventService;
 
     private ProgressionUnit _progressionUnit;
     private bool _active = false;
@@ -21,6 +29,8 @@ public class Snake : MonoBehaviour
 
     public void Init(ref ProgressionUnit progressionUnit)
     {
+        _audioService = ServiceLocator.Instance.Get<IAudioService>();
+        _eventService = ServiceLocator.Instance.Get<IEventService>();
         _progressionUnit = progressionUnit;
         sphereTrigger.onTrigger += OnTrigger;
         _appleLayerMask = LayerMask.GetMask("Apple");
@@ -30,6 +40,11 @@ public class Snake : MonoBehaviour
         direction = mainCamera.transform.TransformDirection(Vector3.up);
 
         _active = true;
+    }
+
+    public void Stop()
+    {
+        _active = false;
     }
     
     void Update()
@@ -57,8 +72,7 @@ public class Snake : MonoBehaviour
         {
             direction = head.forward;
         }
-        Debug.DrawLine(head.position, head.position + direction * 10, Color.red);
-
+        
         head.rotation = Quaternion.LookRotation(direction, transform.up);
         Vector3 rotationAxis = Vector3.Cross(transform.up, direction);
         transform.Rotate(rotationAxis, _progressionUnit.speed * Time.deltaTime, Space.World);
@@ -71,11 +85,15 @@ public class Snake : MonoBehaviour
     {
         if (coll.gameObject.layer == _pickupLayer)
         {
+            _eventService.OnPickupPicked();
             SnakeBodyPart snakeBodyPart = Instantiate(bodyPartPf);
             snakeBodyPart.name = $"SnakePart{bodyParts.Count}";
             bodyParts.Add(snakeBodyPart);
+            _audioService.PlayPickup();
+            Instantiate(destroyFx, coll.transform.position, Quaternion.identity);
         } else if (coll.gameObject.layer == _poisonLayer)
         {
+            _eventService.OnPoisonPicked();
             _active = false;
         }
         Destroy(coll.gameObject);

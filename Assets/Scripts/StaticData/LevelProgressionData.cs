@@ -10,13 +10,19 @@ namespace StaticData
 
         public ProgressionUnit GetProgression(int level)
         {
-            return progressions[Mathf.Clamp(level, 0, progressions.Length - 1)];
+            // return progressions[Mathf.Clamp(level, 0, progressions.Length - 1)];
+            ProgressionUnit progressionUnit = progressions[0];
+            progressionUnit.speed += 2 * Mathf.Sqrt(level);
+            progressionUnit.pickupNum += (int)(20 * Mathf.Sqrt(level));
+            progressionUnit.posionNum += level;
+            return progressionUnit;
         }
     }
 
     [Serializable]
     public struct ProgressionUnit
     {
-        public int speed, pickupNum, posionNum;
+        public float speed;
+        public int pickupNum, posionNum;
     }
 }

@@ -11,6 +11,7 @@ namespace Loading
         public async UniTask Load(Action<float> onProgress)
         {
             onProgress?.Invoke(0.5f);
+            await UniTask.Delay(500);
             await SceneManager.LoadSceneAsync(Constants.Scenes.MAIN_MENU, LoadSceneMode.Additive);
         }
     }

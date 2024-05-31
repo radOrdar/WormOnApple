@@ -32,5 +32,10 @@ namespace Services.Factory
         {
             _assetProvider.ReleaseInstance(instance.gameObject);
         }
+
+        public async UniTask<UiPopup> GetUiPopupAsync()
+        {
+            return await _assetProvider.InstantiateAsync<UiPopup>(Constants.Assets.UI_POPUP);
+        }
     }
 }

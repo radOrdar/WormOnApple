@@ -13,9 +13,21 @@ MonoBehaviour:
   m_Name: LevelProgression
   m_EditorClassIdentifier: 
   progressions:
-  - speed: 28
-    pickupNum: 50
+  - speed: 25
+    pickupNum: 35
     posionNum: 10
-  - speed: 0
-    pickupNum: 0
-    posionNum: 0
+  - speed: 28
+    pickupNum: 43
+    posionNum: 11
+  - speed: 31
+    pickupNum: 46
+    posionNum: 12
+  - speed: 34
+    pickupNum: 49
+    posionNum: 13
+  - speed: 37
+    pickupNum: 52
+    posionNum: 14
+  - speed: 37
+    pickupNum: 52
+    posionNum: 14

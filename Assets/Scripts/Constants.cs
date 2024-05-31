@@ -4,6 +4,7 @@ public static class Constants
     {
         public const string JOYSTICK = "Joystick";
         public const string LOADING_SCREEN = "LoadingScreen";
+        public const string UI_POPUP = "UIPopup";
     }
     public static class Scenes
     {
@@ -17,10 +18,12 @@ public static class Constants
         public const string APP_CONFIG = "AppConfig";
         public const string SOUNDS = "SoundData";
         public const string LEVEL_PROGRESSION = "LevelProgression";
+        public const string APPODEAL_SETTINGS = "AppodealSettings";
     }
 
     public static class PrefsKeys
     {
         public const string LEVEL = "Level";
+        public const string SUBSCRIPTION_EXPIRATION = "SubExp";
     }
 }

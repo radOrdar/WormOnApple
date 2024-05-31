@@ -20,7 +20,8 @@ namespace Services.StaticData
             {
                 [typeof(AppConfigurationData)] = Constants.StaticDataPath.APP_CONFIG,
                 [typeof(SoundsData)] = Constants.StaticDataPath.SOUNDS,
-                [typeof(LevelProgressionData)] = Constants.StaticDataPath.LEVEL_PROGRESSION
+                [typeof(LevelProgressionData)] = Constants.StaticDataPath.LEVEL_PROGRESSION,
+                [typeof(AppodealSettingsData)] = Constants.StaticDataPath.APPODEAL_SETTINGS
             };
         }
     
