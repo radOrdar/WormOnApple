@@ -116,6 +116,7 @@ namespace Services
             _extensionProvider = extensions;
 
             CheckSubscribe();
+            Debug.Log("IAP INIT SUCCESS");
             
             InitializationFinished?.Invoke();
         }
@@ -127,7 +128,7 @@ namespace Services
 
         public void OnInitializeFailed(InitializationFailureReason error)
         {
-            Debug.LogError("IAP initialization failed: " + error);
+            Debug.LogError("IAP INIT Error " + error);
             InitializationFinished?.Invoke();
         }
     }

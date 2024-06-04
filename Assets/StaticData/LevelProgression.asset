@@ -15,7 +15,7 @@ MonoBehaviour:
   progressions:
   - speed: 25
     pickupNum: 35
-    posionNum: 10
+    posionNum: 15
   - speed: 28
     pickupNum: 43
     posionNum: 11
